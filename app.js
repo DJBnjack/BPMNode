@@ -4,14 +4,12 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var handlebars = require('express-handlebars');
 
 var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.engine('handlebars', handlebars({defaultLayout:'main'}));
-app.set('view engine', 'handlebars');
+app.set('view engine', 'hbs');
 
 // Disable cache
 app.disable('etag');
@@ -26,6 +24,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 /* GET home page. */
 app.get('/', function(req, res) {
   res.render('index');
+});
+
+app.get('/index.html', function(req, res) {
+  res.render('index');
+});
+
+app.get('/about', function(req, res){
+  res.render('about');
 });
 
 // catch 404 and forward to error handler

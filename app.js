@@ -21,7 +21,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-/* GET home page. */
+// setup tests
+app.use(function(req, res, next){
+ res.locals.showTests = app.get('env') !== 'production' &&  req.query.test === '1';
+ next();
+});
+
+// routes
 app.get('/', function(req, res) {
   res.render('index');
 });
@@ -31,7 +37,9 @@ app.get('/index.html', function(req, res) {
 });
 
 app.get('/about', function(req, res){
-  res.render('about');
+  res.render('about',{
+    pageTestScript: '/qa/tests-about.js'
+  });
 });
 
 // catch 404 and forward to error handler
